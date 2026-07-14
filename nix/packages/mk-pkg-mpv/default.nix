@@ -26,6 +26,8 @@ let
   ffmpeg = callPackage ../mk-pkg-ffmpeg/default.nix { };
   uchardet = callPackage ../mk-pkg-uchardet/default.nix { };
   libass = callPackage ../mk-pkg-libass/default.nix { };
+  ladspa-sdk = pkgs.ladspa-sdk;
+  rubberband = pkgs.rubberband;
 
   nativeBuildInputs = [
     pkgs.meson
@@ -71,7 +73,7 @@ pkgs.stdenvNoCC.mkDerivation {
   enableParallelBuilding = true;
   inherit nativeBuildInputs;
   buildInputs =
-    [ ffmpeg ]
+    [ ffmpeg ladspa-sdk rubberband ]
     ++ pkgs.lib.optionals (variant == "video") [
       uchardet
       libass
@@ -99,7 +101,7 @@ pkgs.stdenvNoCC.mkDerivation {
       -Dlibbluray=disabled `# Bluray support`
       -Dlua=disabled `# Lua`
       -Dpthread-debug=disabled `# pthread runtime debugging wrappers`
-      -Drubberband=disabled `# librubberband support`
+      -Drubberband=enabled `# librubberband support`
       -Dsdl2=disabled `# SDL2`
       -Dsdl2-gamepad=disabled `# SDL2 gamepad input`
       -Dstdatomic=disabled `# C11 stdatomic.h`
@@ -199,6 +201,7 @@ pkgs.stdenvNoCC.mkDerivation {
 
       `# misc features`
       -Diconv=enabled `# iconv`
+      -Dladspa=enabled `# LADSPA plugin support`
     )
 
     COMMON_VIDEO_OPTIONS=(
