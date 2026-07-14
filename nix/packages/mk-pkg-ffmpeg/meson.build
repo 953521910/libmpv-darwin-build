@@ -1,4 +1,5 @@
 # https://mesonbuild.com/External-Project-module.html
+# Custom build: added equalizer/volume/alimiter filters for audio EQ support
 
 project('ffmpeg', 'c', 'cpp', 'objc')
 
